@@ -1,3 +1,10 @@
+var express     = require('express'),
+app             = express(),
+http 			= require("http"),
+https 			= require("https");
+
+module.exports = function() {
+
 var config = {
   'secrets' : {
     'clientId' : 'SDSGM5KCYH2APPOD1GDDA5NT312Q1BOZY5FQYJDVVEDYUBY2',
@@ -6,7 +13,7 @@ var config = {
   }
 }
 
-var query = 'coffee';
+var query = "coffee";
 
 var options = {
 	host: 'api.foursquare.com',
@@ -19,25 +26,6 @@ var options = {
 	}
 };
 
-var express     = require('express'),
-app             = express(),
-foursquare      = require('node-foursquare')(config),
-http 			= require("http"),
-https 			= require("https");
-
-// var req = https.request(options, function(res) {
-// 	console.log('STATUS: ' + res.statusCode);
-// 	console.log('HEADERS: ' + JSON.stringify(res.headers));
-
-// 	var dataChunks = [];
-// 	res.on('data', function(chunk) {
-// 		dataChunks.push(chunk);
-// 	}).on('end', function() {
-// 		var body = Buffer.concat(dataChunks);
-// 		console.log('BODY: ' + body);
-// 	});
-// 	req.end();
-// });
 
 var router = express.Router();
 
@@ -53,57 +41,29 @@ router.get('/start', function(reqblah, response) {
 			dataChunks.push(chunk);
 		}).on('end', function() {
 			var body = Buffer.concat(dataChunks);
-			console.log('BODY: ' + body);
-			response.json(body.stringify());
+			var stringBody = body.toString('utf-8');
+			var parsedData = JSON.parse(stringBody);
+			response.json(parsedData);
 		});
 	});
 	req.end();
-	// console.log('req: ' + req);
-	// response.json({ message: req });
-	// response.json();
+
+	req.on('error', function(error) {
+		console.log('ERROR: ' + error.message);
+	});
 });
 
-app.use('/api', router);
+app.use('/root', router);
 
-// req.on('error', function(error) {
-// 	console.log('ERROR: ' + error.message);
-// });
-
-/*
-var search = function(options, query, error_handler) {
-	if (error_handler) {
-		console.log("ERROR!");
-	} 
-	else {
-		var prot = options.port == 443 ? https : http;
-		var req = prot.request(options, function(res) {
-
-			var output = '';
-			console.log(options.host + ':' + res.statusCode);
-			res.setEncoding('utf8');
-
-			res.on('data', function(chunk) {
-				output += chunk;
-			});
-
-			res.on('end', function() {
-				var obj = JSON.parse(output);
-				onResult(res.statusCode, obj);
-			})
-		})
-		req.end();
-		console.log(query);
-	}
-}
-*/
 
 //var onResult = function(status, object) {
-//	console.log(object);
+	//console.log(object);
 //}
 
-//app.get('/', function(req, res) {
-//	res.render("index.html");
-//});
+// router.get('/index', function(req, res) {
+// 	console.log(res);
+// 	res.render('index.html', {'Content-Type': 'text/html'});
+// });
 
 var server = app.listen(8080, function (){
   
@@ -113,3 +73,5 @@ var server = app.listen(8080, function (){
   console.log('app listening at http://%s:%s', host, port)
 
 })
+
+}
