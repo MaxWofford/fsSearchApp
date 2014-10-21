@@ -1,10 +1,7 @@
-module.exports = function(app, callback) {
+module.exports = function(app, query, callback) {
   
-
   var http = require('http');
   var https = require('https');
-
-	var query = "pizza";
 
 	var options = {
 		host: 'api.foursquare.com',

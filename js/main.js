@@ -14,31 +14,35 @@ getRoute = '/start';
   //res.render('path/to/view', parsedData);
 
 parseResults = function parseResults (req, parsedData) {
-
-        return {
-          id: parsedData.response.venues[0].id,
-          name: parsedData.response.venues[0].name,
-          location: parsedData.response.venues[0].location,
-          contact: parsedData.response.venues[0].contact,
-          stats: parsedData.response.venues[0].stats,
-          checkins: parsedData.response.venues[0].hereNow
-        };
+  var result = [];
+  for (i = 0; i < parsedData.response.venues.length; i++) {
+    result.push({
+      id: parsedData.response.venues[i].id,
+      name: parsedData.response.venues[i].name,
+      location: parsedData.response.venues[i].location,
+      contact: parsedData.response.venues[i].contact,
+      stats: parsedData.response.venues[i].stats,
+      checkins: parsedData.response.venues[i].hereNow
+    });
+  }
+  return result;
 };
 
 app.server = http.Server(app);
 
 app.get('/', function(req, res) {
-  search(app,  function(err, parsedData) {
+  search(app, req.query.query, function(err, parsedData) {
     if (err) {
       return console.error("There was an error: " + err.message);
     }
-    //res.render('path/to/view', parseResults(req, parsedData));
+    result_list = parseResults(req, parsedData);
+    res.render('../views/index.ejs', result_list);
     //parsedData.forEach(function(){
       //do something with the data
       //console.log(parsedData);
-      res.write(JSON.stringify(parseResults(req, parsedData)));
-     // res.write(JSON.stringify(parsedData));
-      res.end();
+      //res.write(JSON.stringify(parseResults(req, parsedData)));
+      //res.write(JSON.stringify(parsedData));
+      //res.end();
     //})
   });
 });
