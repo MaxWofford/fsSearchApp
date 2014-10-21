@@ -1,0 +1,25 @@
+<html>
+<head>
+	<title>NODE: Foursquare</title>
+</head>
+<body>
+	<form method="GET" action="/">
+		<input name="query" placeholder="search"></input>
+		<input type="submit"></input>
+	</form>
+	<div>
+		<ul>
+		<% for(var i = 0; i < result_list.length; i++) { %>
+			<li><%= result_list[i].name %>
+				<ul>	
+					<li><%= result_list[i].location.address %></li>
+					<li><%= result_list[i].contact.phone %></li>
+					<li><%= result_list[i].stats.checkinsCount %></li>
+					<li><%= result_list[i].checkins.count %></li>
+				</ul>
+			</li> 
+		<% } %>
+		</ul>
+	</div>
+</body>
+</html>
