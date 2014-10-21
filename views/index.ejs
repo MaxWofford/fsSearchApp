@@ -12,7 +12,11 @@
 		<% for(var i = 0; i < result_list.length; i++) { %>
 			<li><%= result_list[i].name %>
 				<ul>	
-					<li><%= result_list[i].location.address %></li>
+					<li><%= result_list[i].location.address %>
+							<%= result_list[i].location.city %>
+							<%= result_list[i].location.state %>
+							<%= result_list[i].location.zipcode %>
+					</li>
 					<li><%= result_list[i].contact.phone %></li>
 					<li><%= result_list[i].stats.checkinsCount %></li>
 					<li><%= result_list[i].checkins.count %></li>

@@ -13,20 +13,42 @@ getRoute = '/start';
 //app.get('/', function(req, res) {
   //res.render('path/to/view', parsedData);
 
+checkUndefined = function checkUndefined (checkUndefined) {
+  if (typeof checkUndefined === "undefined") {
+    return checkUndefined = "None listed";
+  } else {
+    return checkUndefined;
+  }
+}
+
 parseResults = function parseResults (req, parsedData) {
+  var venues = parsedData.response.venues
+
   var result = [];
   for (i = 0; i < parsedData.response.venues.length; i++) {
+    
+    venues[i].contact.phone = parsePhone(checkUndefined(venues[i].contact.phone));
+    venues[i].location.address = checkUndefined(venues[i].location.address);
+
     result.push({
-      id: parsedData.response.venues[i].id,
-      name: parsedData.response.venues[i].name,
-      location: parsedData.response.venues[i].location,
-      contact: parsedData.response.venues[i].contact,
-      stats: parsedData.response.venues[i].stats,
-      checkins: parsedData.response.venues[i].hereNow
+      id: venues[i].id,
+      name: venues[i].name,
+      location: venues[i].location,
+      contact: venues[i].contact,
+      stats: venues[i].stats,
+      checkins: venues[i].hereNow
     });
   }
   return result;
 };
+
+parsePhone = function parsePhone (number) {
+  //number = checkUndefined(number)
+  if (number.split('').length != 10) 
+    return "No phone number listed";
+  else
+    return number.slice(0,3) + "." + number.slice(3,6) + "." + number.slice(6,10);
+}
 
 app.server = http.Server(app);
 

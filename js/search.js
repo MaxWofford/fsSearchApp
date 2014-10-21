@@ -6,7 +6,7 @@ module.exports = function(app, query, callback) {
 	var options = {
 		host: 'api.foursquare.com',
 		port: 443,
-		path: '/v2/venues/search?client_id=' + app.secrets.clientId + '&client_secret=' + 
+		path: '/v2/venues/explore?client_id=' + app.secrets.clientId + '&client_secret=' + 
 			app.secrets.clientSecret + '&v=20141021&ll=40.7,-74&query=' + query,
 		method: 'GET',
 		headers: {
@@ -27,6 +27,7 @@ module.exports = function(app, query, callback) {
 				var stringBody = body.toString('utf-8');
 				var parsedData = JSON.parse(stringBody);
         //console.log(stringBody);
+            console.log(options.host, options.path);
         callback(null, parsedData);
 			});
 		});
