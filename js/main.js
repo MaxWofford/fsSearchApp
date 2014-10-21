@@ -1,77 +1,48 @@
-var express     = require('express'),
-app             = express(),
-http 			= require("http"),
-https 			= require("https");
+var express     	= require('express'),
+app             	= express(),
+http       				= require("http"),
+//https 		    		= require("https"),
+//router 			    	= require("./routes")(app),
+search 			    	= require("./search"),
+foursquareConfig	= require("./config")(app),
+getRoute = '/start';
 
-module.exports = function() {
+//app.engine('html', require('html').renderFile);
+//var router = require('routes.js')(app);
 
-var config = {
-  'secrets' : {
-    'clientId' : 'SDSGM5KCYH2APPOD1GDDA5NT312Q1BOZY5FQYJDVVEDYUBY2',
-    'clientSecret' : '5GK2Q4GFOI0W3KQYEKM1KYKGJKJIRDIN0RAH5OI1WU4CRIQS',
- 	'redirectUrl' : 'http://localhost:8080/callback'
-  }
-}
+//app.get('/', function(req, res) {
+  //res.render('path/to/view', parsedData);
 
-var query = "coffee";
+parseResults = function parseResults (req, parsedData) {
 
-var options = {
-	host: 'api.foursquare.com',
-	port: 443,
-	path: '/v2/venues/search?client_id=' + config.secrets.clientId + '&client_secret=' + 
-		config.secrets.clientSecret + '&v=20141016&ll=40.7,-74&query=' + query,
-	method: 'GET',
-	headers: {
-		'Content-Type': 'application/json'
-	}
+        return {
+          id: parsedData.response.venues[0].id,
+          name: parsedData.response.venues[0].name,
+          location: parsedData.response.venues[0].location,
+          contact: parsedData.response.venues[0].contact,
+          stats: parsedData.response.venues[0].stats,
+          checkins: parsedData.response.venues[0].hereNow
+        };
 };
 
+app.server = http.Server(app);
 
-var router = express.Router();
-
-router.get('/start', function(reqblah, response) {
-	console.log('in start');
-	console.log('STATUS: ' + reqblah.statusCode);
-	var req = https.request(options, function(res) {
-		console.log('STATUS: ' + res.statusCode);
-		console.log('HEADERS: ' + JSON.stringify(res.headers));
-
-		var dataChunks = [];
-		res.on('data', function(chunk) {
-			dataChunks.push(chunk);
-		}).on('end', function() {
-			var body = Buffer.concat(dataChunks);
-			var stringBody = body.toString('utf-8');
-			var parsedData = JSON.parse(stringBody);
-			response.json(parsedData);
-		});
-	});
-	req.end();
-
-	req.on('error', function(error) {
-		console.log('ERROR: ' + error.message);
-	});
+app.get('/', function(req, res) {
+  search(app,  function(err, parsedData) {
+    if (err) {
+      return console.error("There was an error: " + err.message);
+    }
+    //res.render('path/to/view', parseResults(req, parsedData));
+    //parsedData.forEach(function(){
+      //do something with the data
+      //console.log(parsedData);
+      res.write(JSON.stringify(parseResults(req, parsedData)));
+     // res.write(JSON.stringify(parsedData));
+      res.end();
+    //})
+  });
 });
 
-app.use('/root', router);
+app.server.listen(8080);
 
 
-//var onResult = function(status, object) {
-	//console.log(object);
-//}
-
-// router.get('/index', function(req, res) {
-// 	console.log(res);
-// 	res.render('index.html', {'Content-Type': 'text/html'});
-// });
-
-var server = app.listen(8080, function (){
-  
-  var host = server.address().address
-  var port = server.address().port
-
-  console.log('app listening at http://%s:%s', host, port)
-
-})
-
-}
