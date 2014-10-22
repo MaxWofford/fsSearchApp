@@ -15,11 +15,13 @@
 					<li><%= result_list[i].location.address %>
 							<%= result_list[i].location.city %>
 							<%= result_list[i].location.state %>
-							<%= result_list[i].location.zipcode %>
+							<%= result_list[i].location.postalCode %>
 					</li>
 					<li><%= result_list[i].contact.phone %></li>
-					<li><%= result_list[i].stats.checkinsCount %></li>
-					<li><%= result_list[i].checkins.count %></li>
+					<li>TOTAL CHECK INS:<%= result_list[i].stats.checkinsCount %></li>
+					<li>HERE NOW: <%= result_list[i].checkins.count %></li>
+					<li><%= result_list[i].open %></li>
+					<li><a href=<%= result_list[i].url %>>Tips</a></li>
 				</ul>
 			</li> 
 		<% } %>
