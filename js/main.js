@@ -2,14 +2,8 @@ var express     	= require('express'),
 app             	= express(),
 http       				= require("http"),
 search 			    	= require("./search"),
-foursquareConfig	= require("./config")(app),
-getRoute = '/start';
+foursquareConfig	= require("./config")(app);
 
-//app.engine('html', require('html').renderFile);
-//var router = require('routes.js')(app);
-
-//app.get('/', function(req, res) {
-  //res.render('path/to/view', parsedData);
 
 checkUndefined = function checkUndefined (checkUndefined) {
   if (typeof checkUndefined === "undefined") {

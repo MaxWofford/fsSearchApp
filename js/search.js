@@ -9,7 +9,7 @@ module.exports = function(app, query, callback) {
 		host: 'api.foursquare.com',
 		port: 443,
 		path: '/v2/venues/explore?client_id=' + app.secrets.clientId + '&client_secret=' + 
-			app.secrets.clientSecret + '&v=20141021&ll=40.7,-74&query=' + query,
+			app.secrets.clientSecret + '&v=20141021&ll=40.72078,-74.001119&query=' + query,
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'

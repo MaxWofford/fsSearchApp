@@ -3,6 +3,7 @@
 	<title>NODE: Foursquare</title>
 </head>
 <body>
+	<div id="map-canvas" style="width: 100%; height: 30%"></div>
 	<form method="GET" action="/">
 		<input name="query" placeholder="search"></input>
 		<input type="submit"></input>
@@ -27,5 +28,25 @@
 		<% } %>
 		</ul>
 	</div>
+	<script>
+		function initialize() {
+  			var mapOptions = {
+    		zoom: 13,
+    		center: new google.maps.LatLng(40.72078, -74.001119)
+  			};
+
+  		var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+  		}
+
+		function loadScript() {
+		  	var script = document.createElement('script');
+		  	script.type = 'text/javascript';
+		  	script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' + 'callback=initialize';
+		  	document.body.appendChild(script);
+		}
+
+		window.onload = loadScript;
+	</script>
 </body>
 </html>
