@@ -25,8 +25,8 @@ parseResults = function parseResults (req, parsedData) {
     location = checkUndefined(items[i].venue.location);
     location.address = checkUndefined(location.address);
     location.postalCode = checkUndefined(location.postalCode);
-    location.latitude = checkUndefined(location.lat);
-    location.longitude = checkUndefined(location.lng);
+    location.lat = checkUndefined(location.lat);
+    location.lng = checkUndefined(location.lng);
 
     contact = checkUndefined(items[i].venue.contact);
     contact.phone = parsePhone(checkUndefined(contact.phone));

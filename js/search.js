@@ -17,8 +17,6 @@ module.exports = function(app, query, callback) {
 	};
 
 		var req = https.request(options, function(res) {
-			//console.log('STATUS: ' + res.statusCode);
-			//console.log('HEADERS: ' + JSON.stringify(res.headers));
       		//console.log(options.host + options.path);
 			var dataChunks = [];
 			res.on('data', function(chunk) {

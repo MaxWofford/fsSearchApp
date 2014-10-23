@@ -3,39 +3,74 @@
 	<title>NODE: Foursquare</title>
 </head>
 <body>
-	<div id="map-canvas" style="width: 100%; height: 30%"></div>
+	<div id="map-canvas" style="width: 100%; height: 40%"></div>
 	<form method="GET" action="/">
 		<input name="query" placeholder="search"></input>
 		<input type="submit"></input>
 	</form>
 	<div>
 		<ul>
-		<% for(var i = 0; i < result_list.length; i++) { %>
-			<li><%= result_list[i].name %>
-				<ul>	
-					<li><%= result_list[i].location.address %>
-							<%= result_list[i].location.city %>
-							<%= result_list[i].location.state %>
-							<%= result_list[i].location.postalCode %>
-					</li>
-					<li><%= result_list[i].contact.phone %></li>
-					<li>TOTAL CHECK INS:<%= result_list[i].stats.checkinsCount %></li>
-					<li>HERE NOW: <%= result_list[i].checkins.count %></li>
-					<li><%= result_list[i].open %></li>
-					<li><a href=<%= result_list[i].url %>>Tips</a></li>
-				</ul>
+		<% for (var i = 0; i < result_list.length; i++) { %>
+			<li class="venueName"><%= result_list[i].name %>
+				<div class="venue">	
+					<div class="address">
+						<%= result_list[i].location.address %>
+						<%= result_list[i].location.city %>
+						<%= result_list[i].location.state %>
+						<%= result_list[i].location.postalCode %>
+					</div>
+					<div class="phone"><%= result_list[i].contact.phone %></div>
+					<div class="totalCheckIns"> 
+						<img src="/images/checkIns.png"> 
+						<%= result_list[i].stats.checkinsCount %>
+					</div>
+					<div class="hereNow">
+						<img src="/images/hereNow.png"> 
+						<%= result_list[i].checkins.count %>
+					</div>
+					<div class="open"><%= result_list[i].open %></div>
+					<div class="tips"><a href=<%= result_list[i].url %>>Tips</a></div>
+				</div>
 			</li> 
 		<% } %>
 		</ul>
 	</div>
 	<script>
+		var latLng = [];
+		<% for (i = 0; i < result_list.length; i++) { %>
+			latLng.push( [ 
+			 	<%= JSON.stringify(result_list[i].location.lat) %>, 
+			 	<%= JSON.stringify(result_list[i].location.lng) %>,
+			 	//<%= JSON.stringify(result_list[i].name) %>
+			]);
+		<% } %>
+
 		function initialize() {
+			var myLatLng = new google.maps.LatLng(40.72078, -74.001119)
+  			
   			var mapOptions = {
-    		zoom: 13,
-    		center: new google.maps.LatLng(40.72078, -74.001119)
+    			zoom: 13,
+    			center: myLatLng
   			};
 
-  		var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  			console.log(latLng);
+
+  			var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+  			var centerMarker = new google.maps.Marker({
+  				position: myLatLng,
+  				map: map,
+  				title: "Hacker School"
+  			});
+  			
+  			var markers = [];
+  			for (i = 0; i < latLng.length; i++) {
+  				markers[i] = new google.maps.Marker({
+  					position: new google.maps.LatLng(latLng[i][0], latLng[i][1]),
+  					map: map,
+  					title: "A REALLY COOL PLACE"
+  				})	
+  			} 
 
   		}
 
