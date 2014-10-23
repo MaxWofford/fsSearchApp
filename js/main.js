@@ -52,14 +52,13 @@ parseResults = function parseResults (req, parsedData) {
       price: price.tier,
       rating: rating,
       open: hours.isOpen,
-      url: tips[0].canonicalUrl
+      url: tips[0].url
     });
   }
   return result;
 };
 
 parsePhone = function parsePhone (number) {
-  //number = checkUndefined(number)
   if (number.split('').length != 10) 
     return "No phone number listed";
   else
@@ -68,9 +67,9 @@ parsePhone = function parsePhone (number) {
 
 parseOpen = function parseOpen (isOpen) {
   if (isOpen == true)
-    return "Open now";
+    return "Open";
   if (isOpen == false)
-    return "Closed now";
+    return "Closed";
   else
     return "No information provided";
 }
@@ -79,6 +78,8 @@ app.server = http.Server(app);
 
 var query = "coffee";
 
+app.use(express.static(__dirname + '/../views'));
+
 app.get('/', function(req, res) {
   search(app, req.query.query, function(err, parsedData) {
     if (err) {
@@ -86,13 +87,6 @@ app.get('/', function(req, res) {
     }
     result_list = parseResults(req, parsedData);
     res.render('../views/index.ejs', result_list);
-    //parsedData.forEach(function(){
-      //do something with the data
-      //console.log(parsedData);
-      //res.write(JSON.stringify(parseResults(req, parsedData)));
-      //res.write(JSON.stringify(parsedData));
-      //res.end();
-    //})
   });
 });
 

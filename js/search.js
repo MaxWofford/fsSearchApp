@@ -1,9 +1,7 @@
 module.exports = function(app, query, callback) {
   
-  var http = require('http');
-  var https = require('https');
-
- 
+	var http = require('http');
+  	var https = require('https');
 
 	var options = {
 		host: 'api.foursquare.com',
@@ -17,7 +15,6 @@ module.exports = function(app, query, callback) {
 	};
 
 		var req = https.request(options, function(res) {
-      		//console.log(options.host + options.path);
 			var dataChunks = [];
 			res.on('data', function(chunk) {
 				dataChunks.push(chunk);
@@ -25,9 +22,8 @@ module.exports = function(app, query, callback) {
 				var body = Buffer.concat(dataChunks);
 				var stringBody = body.toString('utf-8');
 				var parsedData = JSON.parse(stringBody);
-        //console.log(stringBody);
-            console.log(options.host, options.path);
-        callback(null, parsedData);
+	        console.log(options.host, options.path);
+	    callback(null, parsedData);
 			});
 		});
 		req.end();
@@ -35,14 +31,4 @@ module.exports = function(app, query, callback) {
 		req.on('error', function(error) {
 			console.log('ERROR: ' + error.message);
 		});
-
-
-//var onResult = function(status, object) {
-	//console.log(object);
-//}
-
-// router.get('/index', function(req, res) {
-// 	console.log(res);
-// 	res.render('index.html', {'Content-Type': 'text/html'});
-// });
 }
