@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Find me things please</title>
+ 	<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+	<div id="map-canvas"></div>
+	<form class="search" method="GET" action="/">
+		<input class="searchFont" name="query" placeholder="Search"></input>
+	</form>
+	<div>
+		<ul>
+		<% for (var i = 0; i < result_list.length; i++) { %>
+			<li>
+				<div class="venue">	
+					<div class="venueInfo">
+						<div class="venueName">
+							<% if (typeof result_list[i].url === "undefined") { %>
+								<%= result_list[i].name %>
+							<% } else { %>
+							<a href="<%= result_list[i].url %>"><%= result_list[i].name %></a>
+						<% } %>
+						</div>
+						<div class="address">
+							<%= result_list[i].location.address %>
+							<%= result_list[i].location.city %>
+							<%= result_list[i].location.state %>
+							<%= result_list[i].location.postalCode %>
+						</div>
+						<div class="phone"><%= result_list[i].contact.phone %></div>
+					</div>
+					<div class="totalCheckIns"> 
+						<img src="/images/checkIns.png"> 
+						<div class="count"><%= result_list[i].stats.checkinsCount %></div>
+					</div>
+					<div class="hereNow">
+						<div><img src="/images/hereNow.png"> </div>
+						<div class="count"><%= result_list[i].checkins.count %> </div>
+					</div>
+					<div class="price">
+						<% if (result_list[i].price == 1) { %>
+							<img src="/images/money.png">
+						<% } else if (result_list[i].price == 2) {%>
+							<img src="/images/money.png">
+							<img src="/images/money.png">
+						<% } else if (result_list[i].price == 3) {%>
+							<img src="/images/money.png">
+							<img src="/images/money.png">
+							<img src="/images/money.png">
+						<% } else if (result_list[i].price == 4){%>
+							<img src="/images/money.png">
+							<img src="/images/money.png">
+							<img src="/images/money.png">
+							<img src="/images/money.png">
+						<% } else {%>
+						<% } %>
+					</div>
+					<div class="open">
+						<% if (result_list[i].open === "Open") {%>
+							<img src="/images/open.png">
+							<div class="count"> <%= result_list[i].open %> </div>
+						<% } else if (result_list[i].open === "Closed") { %>
+							<img src="/images/closed.png">
+							<div class="count"> <%= result_list[i].open %> </div>
+						<% } else { %>
+						<% } %>
+ 					</div>
+ 					<div class="rating"> <%= result_list[i].rating %> </div>
+				</div>
+			</li> 
+		<% } %>
+		</ul>
+	</div>
+	<script>
+		var latLng = [];
+		<% for (i = 0; i < result_list.length; i++) { %>
+			latLng.push( [ 
+			 	<%= result_list[i].location.lat %>, 
+			 	<%= result_list[i].location.lng %>,
+			 	"<%= result_list[i].name %>"
+			]);
+		<% } %>
+	</script>
+	<script src="/maps.js"></script>
+</body>
+</html>
