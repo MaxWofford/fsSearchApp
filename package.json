@@ -4,11 +4,11 @@
     "name": "ashley",
     "email": "ashley@ashleyglidden.com"
   },
-  "main": "main.js"
+  "main": "main.js",
   "repository": {
       "type": "git",
       "url": "https://github.com/ashleyglidden/fsSearchApp"
-    }
+    },
   "dependencies": {
     "express": "~4.2.0",
     "body-parser": "~1.0.0",
