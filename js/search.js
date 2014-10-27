@@ -23,7 +23,7 @@ module.exports = function(app, query, callback) {
 				var stringBody = body.toString('utf-8');
 				var parsedData = JSON.parse(stringBody);
 	        console.log(options.host, options.path);
-	    callback(null, parsedData);
+	    	callback(null, parsedData);
 			});
 		});
 		req.end();
