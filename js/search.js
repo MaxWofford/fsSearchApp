@@ -1,4 +1,4 @@
-module.exports = function(app, query, callback) {
+module.exports = function(app, searchQuery, callback) {
   
 	var http = require('http');
   	var https = require('https');
@@ -7,7 +7,8 @@ module.exports = function(app, query, callback) {
 		host: 'api.foursquare.com',
 		port: 443,
 		path: '/v2/venues/explore?client_id=' + process.env.FS_CLIENT_ID + '&client_secret=' + 
-			process.env.FS_CLIENT_SECRET + '&v=20141021&ll=40.72078,-74.001119&query=' + query,
+			process.env.FS_CLIENT_SECRET + '&v=20141021&ll=' + searchQuery.lat + ',' + searchQuery.lng + 
+		'&query=' + searchQuery.query,
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'
@@ -22,7 +23,7 @@ module.exports = function(app, query, callback) {
 				var body = Buffer.concat(dataChunks);
 				var stringBody = body.toString('utf-8');
 				var parsedData = JSON.parse(stringBody);
-	        console.log(options.host, options.path);
+	        //console.log(options.host, options.path);
 	    	callback(null, parsedData);
 			});
 		});

@@ -75,12 +75,19 @@ parseOpen = function parseOpen (isOpen) {
 
 app.server = http.Server(app);
 
-var query = "coffee";
-
 app.use(express.static(__dirname + '/../views'));
 
-app.get('/', function(req, res) {
-  search(app, req.query.query, function(err, parsedData) {
+app.get('/', function (req, res) {
+  res.render('../views/start.ejs');
+});
+
+app.get('/search', function (req, res) {
+  var searchQuery = {
+    query: req.query.query,
+    lat: req.query.lat,
+    lng: req.query.lng
+  };
+  search(app, searchQuery, function(err, parsedData) {
     if (err) {
       return console.error("There was an error: " + err.message);
     }

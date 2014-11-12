@@ -5,10 +5,12 @@
 	<title>Find me things please</title>
  	<link rel="stylesheet" href="css/main.css">
 </head>
-<body>
+<body> 
 	<div id="map-canvas"></div>
-	<form class="search" method="GET" action="/">
-		<input class="searchFont" name="query" placeholder="Search"></input>
+	<form class="search" method="GET" action="/search">
+		<input class="searchFont" name="query" placeholder="Search" />
+		<input type="hidden" name="lat" value="" id="lat" />
+		<input type="hidden" name="lng" value="" id="lng" />
 	</form>
 	<div>
 		<ul>
@@ -79,7 +81,9 @@
 			latLng.push( [ 
 			 	<%= result_list[i].location.lat %>, 
 			 	<%= result_list[i].location.lng %>,
-			 	"<%= result_list[i].name %>"
+			 	"<%= result_list[i].name %>",
+			 	<%= result_list[i].rating %>,
+			 	<%= result_list[i].price %>
 			]);
 		<% } %>
 	</script>
