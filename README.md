@@ -1,7 +1,7 @@
-A node.js project that uses the Foursquare explore and Google Maps APIs.
+A node.js app that uses the Foursquare explore and Google Maps APIs. 
+Created for Hacker Schoolers (many of whom are new to NYC) to locate food and other necessities for coding. 
 
-The lat/lng has been updated and it is included in the query. 
-This app can be used any where now, as long as you allow it to use your IP for geolocation. 
+The user's lat/long are used to provide an optimal search experience from any location, not just Hacker School.
 
 To do:
 complete welcome page
