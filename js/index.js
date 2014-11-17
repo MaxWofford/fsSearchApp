@@ -1,9 +1,7 @@
 var express     	= require('express'),
 app             	= express(),
 http       				= require("http"),
-search 			    	= require("./search"),
-foursquareConfig	= require("./config")(app);
-
+search 			    	= require("./search");
 
 checkUndefined = function checkUndefined (checkUndefined) {
   if (typeof checkUndefined === "undefined") {
