@@ -88,6 +88,10 @@ app.get('/', function(req, res) {
   });
 });
 
-app.server.listen(process.env.PORT || 8080);
+// If we don't explicitly define a port for the environment, default to 8080
+var port = process.env.PORT || 8080;
 
-
+// 'Hello world' message gets logged to console when starting server
+app.server.listen(port, function(){
+  console.log('Hello world! I\'m listening on port ' + port);
+});
