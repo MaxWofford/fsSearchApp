@@ -1,13 +1,17 @@
 module.exports = function(app, query, callback) {
-  
+
 	var http = require('http');
   	var https = require('https');
+	var secrets = require('./config');
+
+	var foursquareClientId = process.env.FS_CLIENT_ID || secrets.foursquare.clientId;
+	var foursquareClientSecret = process.env.FS_CLIENT_SECRET || secrets.foursquare.clientSecret;
 
 	var options = {
 		host: 'api.foursquare.com',
 		port: 443,
-		path: '/v2/venues/explore?client_id=' + app.secrets.clientId + '&client_secret=' + 
-			app.secrets.clientSecret + '&v=20141021&ll=40.72078,-74.001119&query=' + query,
+		path: '/v2/venues/explore?client_id=' + foursquareClientId + '&client_secret=' + 
+			foursquareClientSecret + '&v=20141021&ll=40.72078,-74.001119&query=' + query,
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'
