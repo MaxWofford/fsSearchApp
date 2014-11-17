@@ -11,7 +11,7 @@ checkUndefined = function checkUndefined (checkUndefined) {
   }
 }
 
-parseResults = function parseResults (req, parsedData) {
+function parseResults (req, parsedData) {
   //items is an array of venues
   var items = parsedData.response.groups[0].items;
   var result = [];
@@ -56,14 +56,14 @@ parseResults = function parseResults (req, parsedData) {
   return result;
 };
 
-parsePhone = function parsePhone (number) {
+function parsePhone (number) {
   if (number.split('').length != 10) 
     return "No phone number listed";
   else
     return number.slice(0,3) + "." + number.slice(3,6) + "." + number.slice(6,10);
 }
 
-parseOpen = function parseOpen (isOpen) {
+function parseOpen (isOpen) {
   if (isOpen == true)
     return "Open";
   if (isOpen == false)
