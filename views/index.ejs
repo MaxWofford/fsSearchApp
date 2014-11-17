@@ -40,21 +40,10 @@
 						<div class="count"><%= result_list[i].checkins.count %> </div>
 					</div>
 					<div class="price">
-						<% if (result_list[i].price == 1) { %>
-							<img src="/images/money.png">
-						<% } else if (result_list[i].price == 2) {%>
-							<img src="/images/money.png">
-							<img src="/images/money.png">
-						<% } else if (result_list[i].price == 3) {%>
-							<img src="/images/money.png">
-							<img src="/images/money.png">
-							<img src="/images/money.png">
-						<% } else if (result_list[i].price == 4){%>
-							<img src="/images/money.png">
-							<img src="/images/money.png">
-							<img src="/images/money.png">
-							<img src="/images/money.png">
-						<% } else {%>
+						<% if (typeof result_list[i].price == 'number' ) { %>
+							<% for (var n = result_list[i].price - 1; n >= 0; n--) { %>
+								<img src="/images/money.png">
+							<% } %>
 						<% } %>
 					</div>
 					<div class="open">
