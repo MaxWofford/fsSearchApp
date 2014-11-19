@@ -3,7 +3,7 @@ module.exports = function(app, query, callback) {
 	var http = require('http');
   	var https = require('https');
 	var secrets = require('./config');
-
+	// We'll get our API keys from a config file if we can't find an 'FS_CLIENT_ID' environmental variable
 	var foursquareClientId = process.env.FS_CLIENT_ID || secrets.foursquare.clientId;
 	var foursquareClientSecret = process.env.FS_CLIENT_SECRET || secrets.foursquare.clientSecret;
 
@@ -26,7 +26,8 @@ module.exports = function(app, query, callback) {
 				var body = Buffer.concat(dataChunks);
 				var stringBody = body.toString('utf-8');
 				var parsedData = JSON.parse(stringBody);
-	        console.log(options.host, options.path);
+			// Log our API call
+	        console.log(options.host + options.path);
 	    	callback(null, parsedData);
 			});
 		});

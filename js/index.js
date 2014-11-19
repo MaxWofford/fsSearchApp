@@ -1,44 +1,28 @@
 var express     	= require('express'),
 app             	= express(),
-http       				= require("http"),
-search 			    	= require("./search");
-
-checkUndefined = function checkUndefined (checkUndefined) {
-  if (typeof checkUndefined === "undefined") {
-    return checkUndefined = "None listed";
-  } else {
-    return checkUndefined;
-  }
-}
+http       				= require('http'),
+search 			    	= require('./search');
 
 function parseResults (req, parsedData) {
   //items is an array of venues
   var items = parsedData.response.groups[0].items;
   var result = [];
   for (i = 0; i < items.length; i++) {
-    
-    id = checkUndefined(items[i].venue.id);
-    name = checkUndefined(items[i].venue.name);
-    
-    location = checkUndefined(items[i].venue.location);
-    location.address = checkUndefined(location.address);
-    location.postalCode = checkUndefined(location.postalCode);
-    location.lat = checkUndefined(location.lat);
-    location.lng = checkUndefined(location.lng);
 
-    contact = checkUndefined(items[i].venue.contact);
-    contact.phone = parsePhone(checkUndefined(contact.phone));
-    contact.twitter = checkUndefined(contact.twitter);
-    
-    stats = checkUndefined(items[i].venue.stats);
-    checkins = checkUndefined(items[i].venue.hereNow);
-    price = checkUndefined(items[i].venue.price);
-    price.tier = checkUndefined(price.tier);
-    rating = checkUndefined(items[i].venue.rating);
-
-    hours = checkUndefined(items[i].venue.hours);
-    hours.isOpen = parseOpen(checkUndefined(hours.isOpen));
-    tips = checkUndefined(items[i].tips);
+    var venue = items[i].venue
+    var id = venue.id;
+    var name = venue.name;
+    // Foursquare already provides a formatted address and phone number for us
+    var location = venue.location && venue.location.formattedAddress;
+    var contact = venue.contact && venue.contact.formattedPhone;
+    var stats = venue.stats;
+    var checkins = venue.hereNow;
+    // This will return null if venue.price is undefined
+    var price = venue.price && venue.price.tier; 
+    var rating = venue.rating;
+    // Foursquare also gives us it's best guess if a venue is open
+    var hours = venue.hours && venue.hours.isOpen; 
+    var url = venue.url;
 
     result.push({
       id: id,
@@ -47,41 +31,26 @@ function parseResults (req, parsedData) {
       contact: contact,
       stats: stats,
       checkins: checkins,
-      price: price.tier,
+      price: price,
       rating: rating,
-      open: hours.isOpen,
-      url: tips[0].url
+      open: hours,
+      url: url
     });
   }
   return result;
 };
 
-function parsePhone (number) {
-  if (number.split('').length != 10) 
-    return "No phone number listed";
-  else
-    return number.slice(0,3) + "." + number.slice(3,6) + "." + number.slice(6,10);
-}
-
-function parseOpen (isOpen) {
-  if (isOpen == true)
-    return "Open";
-  if (isOpen == false)
-    return "Closed";
-  else
-    return "No information provided";
-}
-
 app.server = http.Server(app);
 
-var query = "coffee";
+var query = 'coffee';
 
+// All assets in /views are treated as public
 app.use(express.static(__dirname + '/../views'));
 
 app.get('/', function(req, res) {
   search(app, req.query.query, function(err, parsedData) {
     if (err) {
-      return console.error("There was an error: " + err.message);
+      return console.error('There was an error: ' + err.message);
     }
     result_list = parseResults(req, parsedData);
     res.render('../views/index.ejs', result_list);

@@ -24,12 +24,13 @@
 						<% } %>
 						</div>
 						<div class="address">
-							<%= result_list[i].location.address %>
-							<%= result_list[i].location.city %>
-							<%= result_list[i].location.state %>
-							<%= result_list[i].location.postalCode %>
+							<%= result_list[i].location.join(', ') %>
 						</div>
-						<div class="phone"><%= result_list[i].contact.phone %></div>
+						<div class="phone">
+							<% if (typeof result_list[i].contact != 'undefined') { %>
+								<%= result_list[i].contact %>
+							<% } %>
+						</div>
 					</div>
 					<div class="totalCheckIns"> 
 						<img src="/images/checkIns.png"> 
@@ -47,16 +48,20 @@
 						<% } %>
 					</div>
 					<div class="open">
-						<% if (result_list[i].open === "Open") {%>
+						<% if (result_list[i].open == true) {%>
 							<img src="/images/open.png">
-							<div class="count"> <%= result_list[i].open %> </div>
-						<% } else if (result_list[i].open === "Closed") { %>
+							<div class="count"> Open </div>
+						<% } else if (result_list[i].open == false) { %>
 							<img src="/images/closed.png">
-							<div class="count"> <%= result_list[i].open %> </div>
+							<div class="count"> Closed </div>
 						<% } else { %>
 						<% } %>
  					</div>
- 					<div class="rating"> <%= result_list[i].rating %> </div>
+ 					<div class="rating"> 
+	 					<% if (typeof result_list[i].rating != 'undefined') { %>
+	 						<%= result_list[i].rating %> 
+	 					<% } %>
+ 					</div>
 				</div>
 			</li> 
 		<% } %>
