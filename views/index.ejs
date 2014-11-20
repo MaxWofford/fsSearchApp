@@ -26,13 +26,12 @@
 						<% } %>
 						</div>
 						<div class="address">
-							<%= result_list[i].location.join(', ') %>
+							<%= result_list[i].location.address %>
+							<%= result_list[i].location.city %>
+							<%= result_list[i].location.state %>
+							<%= result_list[i].location.postalCode %>
 						</div>
-						<div class="phone">
-							<% if (typeof result_list[i].contact != 'undefined') { %>
-								<%= result_list[i].contact %>
-							<% } %>
-						</div>
+						<div class="phone"><%= result_list[i].contact.phone %></div>
 					</div>
 					<div class="totalCheckIns"> 
 						<img src="/images/checkIns.png"> 
@@ -43,27 +42,34 @@
 						<div class="count"><%= result_list[i].checkins.count %> </div>
 					</div>
 					<div class="price">
-						<% if (typeof result_list[i].price == 'number' ) { %>
-							<% for (var n = result_list[i].price - 1; n >= 0; n--) { %>
-								<img src="/images/money.png">
-							<% } %>
+						<% if (result_list[i].price == 1) { %>
+							<img src="/images/money.png">
+						<% } else if (result_list[i].price == 2) {%>
+							<img src="/images/money.png">
+							<img src="/images/money.png">
+						<% } else if (result_list[i].price == 3) {%>
+							<img src="/images/money.png">
+							<img src="/images/money.png">
+							<img src="/images/money.png">
+						<% } else if (result_list[i].price == 4){%>
+							<img src="/images/money.png">
+							<img src="/images/money.png">
+							<img src="/images/money.png">
+							<img src="/images/money.png">
+						<% } else {%>
 						<% } %>
 					</div>
 					<div class="open">
-						<% if (result_list[i].open == true) {%>
+						<% if (result_list[i].open === "Open") {%>
 							<img src="/images/open.png">
-							<div class="count"> Open </div>
-						<% } else if (result_list[i].open == false) { %>
+							<div class="count"> <%= result_list[i].open %> </div>
+						<% } else if (result_list[i].open === "Closed") { %>
 							<img src="/images/closed.png">
-							<div class="count"> Closed </div>
+							<div class="count"> <%= result_list[i].open %> </div>
 						<% } else { %>
 						<% } %>
  					</div>
- 					<div class="rating"> 
-	 					<% if (typeof result_list[i].rating != 'undefined') { %>
-	 						<%= result_list[i].rating %> 
-	 					<% } %>
- 					</div>
+ 					<div class="rating"> <%= result_list[i].rating %> </div>
 				</div>
 			</li> 
 		<% } %>

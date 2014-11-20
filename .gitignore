@@ -1,5 +1,1 @@
-# Ignore API keys
 js/config.js
-
-# Ignore npm logs
-js/*.log
